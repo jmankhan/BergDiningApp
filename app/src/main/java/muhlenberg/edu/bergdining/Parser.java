@@ -30,7 +30,7 @@ public class Parser {
         while((eventType = parser.getEventType()) != XmlPullParser.END_DOCUMENT) {
             String name = parser.getName();
 
-            if(name != null && name.equalsIgnoreCase("weeklymenu")) {
+            if(name != null && name.equalsIgnoreCase("weeklymenu") && eventType != XmlPullParser.END_TAG) {
                 Item i = new Item(parser.getAttributeValue(null, "item_name"));
                 items.add(i);
             }

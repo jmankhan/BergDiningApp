@@ -11,6 +11,6 @@ import retrofit.http.GET;
  */
 public interface BergServer {
 
-    @GET("/berg")
+    @GET("/menu.xml")
     Call<WeeklyMenu> getMenu();
 }

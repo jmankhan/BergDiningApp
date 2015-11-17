@@ -14,20 +14,23 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.ResponseBody;
 
 import org.json.JSONObject;
+import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.convert.AnnotationStrategy;
+import org.simpleframework.xml.core.Persister;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import muhlenberg.edu.bergdining.retro.WeeklyMenu;
 import okio.Buffer;
 import retrofit.Call;
 import retrofit.Callback;
-import retrofit.GsonConverterFactory;
 import retrofit.Response;
 import retrofit.Retrofit;
-import retrofit.http.GET;
+import retrofit.SimpleXmlConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements Callback<WeeklyMenu> {
 
@@ -52,10 +55,12 @@ public class MainActivity extends AppCompatActivity implements Callback<WeeklyMe
         OkHttpClient client = new OkHttpClient();
         client.interceptors().add(new LoggingInterceptor());
 
+        muhlenberg.edu.bergdining.retro.MenuItem.MenuItemConverter converter = new muhlenberg.edu.bergdining.retro.MenuItem.MenuItemConverter();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://berg-dining.herokuapp.com/")
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
+//                .client(client)
+                .addConverterFactory(SimpleXmlConverterFactory.create(new Persister(new AnnotationStrategy())))
                 .build();
 
         BergServer bs = retrofit.create(BergServer.class);
@@ -94,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements Callback<WeeklyMe
     @Override
     public void onFailure(Throwable t) {
         Toast.makeText(MainActivity.this, "failure", Toast.LENGTH_SHORT).show();
+        t.printStackTrace();
         Log.d("server", "failure: " + t.getMessage());
     }
 

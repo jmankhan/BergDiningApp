@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import muhlenberg.edu.bergdining.retro.MenuItem;
@@ -46,7 +47,7 @@ public class MenuListAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.menu_item_layout, parent, false);
         }
 
-        ImageButton img = (ImageButton) convertView.findViewById(R.id.menu_item_image);
+        ImageView img = (ImageView) convertView.findViewById(R.id.menu_item_image);
         img.setImageResource(R.drawable.ic_menu);
 
         TextView txt = (TextView) convertView.findViewById(R.id.menu_item_text);

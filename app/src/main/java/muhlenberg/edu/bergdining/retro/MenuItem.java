@@ -35,6 +35,9 @@ public class MenuItem {
         nuts = new HashMap<>();
     }
 
+    public String getName() {
+        return name;
+    }
     @Override
     public String toString() {
         String i = "";

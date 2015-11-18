@@ -1,48 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.1"
-        android:background="#cc092f"
-        android:padding="10dp">
-
-        <ImageView
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_width="25dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_left"
-            android:scaleType="fitCenter"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Lunch"
-            android:textSize="28sp"
-            android:textColor="#000"/>
-
-        <ImageView
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_width="25dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_arrow_right"
-            android:scaleType="fitCenter"/>
-
-    </RelativeLayout>
-
-    <ListView
+    <GridView android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/menu_list"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.9"
-        android:background="#919693">
+        android:numColumns="3"/>
 
-    </ListView>
 </LinearLayout>

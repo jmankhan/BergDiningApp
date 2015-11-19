@@ -1,9 +1,8 @@
 package muhlenberg.edu.bergdining;
 
 
-import muhlenberg.edu.bergdining.retro.WeeklyMenu;
+import muhlenberg.edu.bergdining.simplexml.MenuWeek;
 import retrofit.Call;
-import retrofit.Response;
 import retrofit.http.GET;
 
 /**
@@ -11,6 +10,6 @@ import retrofit.http.GET;
  */
 public interface BergServer {
 
-    @GET("/menu.xml")
-    Call<WeeklyMenu> getMenu();
+    @GET("/berg")
+    Call<MenuWeek> getMenu();
 }

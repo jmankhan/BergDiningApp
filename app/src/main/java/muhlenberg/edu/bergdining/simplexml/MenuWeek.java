@@ -1,12 +1,13 @@
 package muhlenberg.edu.bergdining.simplexml;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
 @Root(name="BergMenu")
-public class MenuWeek {
+public class MenuWeek  implements Serializable{
 
 	public MenuWeek() {
 		days = new ArrayList<MenuDay>();

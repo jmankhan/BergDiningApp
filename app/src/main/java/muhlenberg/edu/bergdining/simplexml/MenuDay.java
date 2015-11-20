@@ -2,12 +2,13 @@ package muhlenberg.edu.bergdining.simplexml;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 
-public class MenuDay {
+public class MenuDay implements Serializable {
 
 	public MenuDay() {
 	}

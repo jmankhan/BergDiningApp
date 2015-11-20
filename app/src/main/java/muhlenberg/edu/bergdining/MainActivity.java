@@ -1,12 +1,31 @@
 package muhlenberg.edu.bergdining;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import org.simpleframework.xml.convert.AnnotationStrategy;
+import org.simpleframework.xml.core.Persister;
+
+import muhlenberg.edu.bergdining.simplexml.MenuWeek;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
+import retrofit.SimpleXmlConverterFactory;
+
+public class MainActivity extends AppCompatActivity implements Callback<MenuWeek> {
+    ViewPager viewPager;
+    PagerAdapter pagerAdapter;
+    MenuWeek menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,6 +34,15 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://berg-dining.herokuapp.com/")
+                .addConverterFactory(SimpleXmlConverterFactory.create(new Persister(new AnnotationStrategy())))
+                .build();
+
+        BergServer bs = retrofit.create(BergServer.class);
+        Call<MenuWeek> call = bs.getMenu();
+        call.enqueue(this);
 
     }
 
@@ -39,4 +67,39 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onResponse(Response<MenuWeek> response, Retrofit retrofit) {
+        menu = response.body();
+        for(int i=0; i<7; i++)
+            menu.days.remove(0);
+
+        viewPager  = (ViewPager) findViewById(R.id.menu_week_pager);
+        pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(pagerAdapter);
+    }
+
+    @Override
+    public void onFailure(Throwable t) {
+        Toast.makeText(this, "Failed to update menu", Toast.LENGTH_SHORT).show();
+        t.printStackTrace();
+    }
+
+    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+        public ScreenSlidePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            MainActivityFragment f = MainActivityFragment.newInstance(position, menu);
+            return f;
+        }
+
+        @Override
+        public int getCount() {
+            return 21;
+        }
+    }
+
 }

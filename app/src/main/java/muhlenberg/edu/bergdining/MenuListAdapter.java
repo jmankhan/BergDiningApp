@@ -33,14 +33,14 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.Custom
 
         public CustomViewHolder(View itemView) {
             super(itemView);
-            textView = (TextView) itemView.findViewById(R.id.recycler_item_text);
-            imageView = (ImageView) itemView.findViewById(R.id.recycler_item_image);
+            textView = (TextView) itemView.findViewById(R.id.menu_item_text);
+            imageView = (ImageView) itemView.findViewById(R.id.menu_item_image);
          }
     }
 
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.listitem, parent, false);
+        View v = LayoutInflater.from(context).inflate(R.layout.menu_item_layout, parent, false);
         CustomViewHolder viewHolder = new CustomViewHolder(v);
         return viewHolder;
     }

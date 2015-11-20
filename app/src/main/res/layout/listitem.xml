@@ -15,5 +15,6 @@
         android:textSize="12sp"
         android:maxLines="1"
         android:ellipsize="end"
+        android:gravity="center_horizontal"
         android:layout_below="@id/recycler_item_image"/>
 </RelativeLayout>

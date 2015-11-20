@@ -20,5 +20,7 @@ public class MenuItem {
 	public String name;
 	
 	@Element
-	public MenuFact facts; 
+	public MenuFact facts;
+
+	public int id;
 }

@@ -14,7 +14,6 @@ public class MenuMeal {
 	public MenuMeal(String n) {
 		this.name = n;
 		items = new ArrayList<MenuItem>();
-		Log.d("parser", "creating menumeal 2");
 	}
 	
 	@Attribute

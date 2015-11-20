@@ -1,67 +1,64 @@
 package muhlenberg.edu.bergdining;
 
 import android.content.Context;
-import android.util.DisplayMetrics;
+import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import muhlenberg.edu.bergdining.simplexml.MenuMeal;
 
 /**
  * Created by BCrossLap on 11/17/2015.
  */
-public class MenuListAdapter extends BaseAdapter {
+public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.CustomViewHolder> {
 
-    MenuMeal menu;
     Context context;
-    DisplayMetrics dm;
+    MenuMeal menu;
 
-    public MenuListAdapter(MenuMeal menu, Context context, DisplayMetrics dm) {
-        this.menu = menu;
+    public MenuListAdapter(Context context, MenuMeal menu) {
         this.context = context;
-        this.dm = dm;
+        this.menu = menu;
+    }
+
+    public class CustomViewHolder extends RecyclerView.ViewHolder {
+        TextView textView;
+        ImageView imageView;
+
+        public CustomViewHolder(View itemView) {
+            super(itemView);
+            textView = (TextView) itemView.findViewById(R.id.recycler_item_text);
+            imageView = (ImageView) itemView.findViewById(R.id.recycler_item_image);
+         }
     }
 
     @Override
-    public int getCount() {
-        return menu.items.size();
+    public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(context).inflate(R.layout.listitem, parent, false);
+        CustomViewHolder viewHolder = new CustomViewHolder(v);
+        return viewHolder;
     }
 
     @Override
-    public Object getItem(int position) {
-        return menu.items.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.menu_item_layout, parent, false);
-        }
-
-        ImageView img = (ImageView) convertView.findViewById(R.id.menu_item_image);
-        ViewGroup.LayoutParams lp = img.getLayoutParams();
-        lp.width = dm.widthPixels / 3;
+    public void onBindViewHolder(CustomViewHolder holder, int position) {
+        String name = menu.items.get(position).name;
+        holder.textView.setText(Html.escapeHtml(name).toString());
 
 //        Picasso.with(context)
-//                .load(menu.getItems().get(position).getImgId())
+//                .load(menu.items.get(position).id)
+//                .resize(25, 25)
 //                .placeholder(R.drawable.ic_menu)
-//                .resize(250,250)
-//                .into(img);
+//                .into(holder.imageView);
+    }
 
-
-        TextView txt = (TextView) convertView.findViewById(R.id.menu_item_text);
-        txt.setText(menu.items.get(position).name);
-
-        return convertView;
+    @Override
+    public int getItemCount() {
+        return menu.items.size();
     }
 }

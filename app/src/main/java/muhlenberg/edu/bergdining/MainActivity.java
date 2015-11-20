@@ -1,59 +1,39 @@
 package muhlenberg.edu.bergdining;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.ResponseBody;
-
-import org.json.JSONObject;
-import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.convert.AnnotationStrategy;
 import org.simpleframework.xml.core.Persister;
-import org.xmlpull.v1.XmlPullParserException;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import muhlenberg.edu.bergdining.retro.WeeklyMenu;
-import okio.Buffer;
+import muhlenberg.edu.bergdining.simplexml.MenuWeek;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 import retrofit.SimpleXmlConverterFactory;
 
-public class MainActivity extends AppCompatActivity implements Callback<WeeklyMenu> {
+public class MainActivity extends AppCompatActivity implements Callback<MenuWeek> {
+    ViewPager viewPager;
+    PagerAdapter pagerAdapter;
+    MenuWeek menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        try {
-            String[] list = getAssets().list("menus");
-            String menuName = "menus/" + list[list.length-1];
-
-            Parser parser = new Parser(getAssets().open(menuName));
-            ArrayList<Parser.Item> items = parser.getItems();
-            for(Parser.Item i : items)
-                Log.d("parser", i.name);
-
-        } catch (IOException | XmlPullParserException e) {e.printStackTrace();}
-
-
-        muhlenberg.edu.bergdining.retro.MenuItem.MenuItemConverter converter = new muhlenberg.edu.bergdining.retro.MenuItem.MenuItemConverter();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://berg-dining.herokuapp.com/")
@@ -61,8 +41,9 @@ public class MainActivity extends AppCompatActivity implements Callback<WeeklyMe
                 .build();
 
         BergServer bs = retrofit.create(BergServer.class);
-        Call<WeeklyMenu> call = bs.getMenu();
+        Call<MenuWeek> call = bs.getMenu();
         call.enqueue(this);
+
     }
 
     @Override
@@ -88,15 +69,37 @@ public class MainActivity extends AppCompatActivity implements Callback<WeeklyMe
     }
 
     @Override
-    public void onResponse(Response<WeeklyMenu> response, Retrofit retrofit) {
-        Toast.makeText(MainActivity.this, "Received response!", Toast.LENGTH_LONG).show();
-        Log.d("server", response.body().toString());
+    public void onResponse(Response<MenuWeek> response, Retrofit retrofit) {
+        menu = response.body();
+        for(int i=0; i<7; i++)
+            menu.days.remove(0);
+
+        viewPager  = (ViewPager) findViewById(R.id.menu_week_pager);
+        pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(pagerAdapter);
     }
 
     @Override
     public void onFailure(Throwable t) {
-        Toast.makeText(MainActivity.this, "failure", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Failed to update menu", Toast.LENGTH_SHORT).show();
         t.printStackTrace();
-        Log.d("server", "failure: " + t.getMessage());
     }
+
+    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+        public ScreenSlidePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            MainActivityFragment f = MainActivityFragment.newInstance(position, menu);
+            return f;
+        }
+
+        @Override
+        public int getCount() {
+            return 21;
+        }
+    }
+
 }

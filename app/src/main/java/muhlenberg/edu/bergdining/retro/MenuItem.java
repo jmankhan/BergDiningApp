@@ -1,5 +1,6 @@
 package muhlenberg.edu.bergdining.retro;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.Menu;
 
@@ -29,12 +30,18 @@ public class MenuItem {
     @Element(name = "item_name")
     String name;
     Map<String, String> nuts;
+    int imgId;
 
     public MenuItem() {
         name = "undefined";
         nuts = new HashMap<>();
     }
 
+    public void setImgId(int imgId){this.imgId = imgId;}
+    public int getImgId() {return imgId;}
+    public String getName() {
+        return name;
+    }
     @Override
     public String toString() {
         String i = "";

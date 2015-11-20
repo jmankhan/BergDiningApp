@@ -48,13 +48,13 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.Custom
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         String name = menu.items.get(position).name;
-        holder.textView.setText(Html.escapeHtml(name).toString());
+        holder.textView.setText(name);
 
-//        Picasso.with(context)
-//                .load(menu.items.get(position).id)
-//                .resize(25, 25)
-//                .placeholder(R.drawable.ic_menu)
-//                .into(holder.imageView);
+        Picasso.with(context)
+                .load(menu.items.get(position).id)
+                .resize(250, 250)
+                .placeholder(R.drawable.ic_menu)
+                .into(holder.imageView);
     }
 
     @Override

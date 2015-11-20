@@ -1,5 +1,6 @@
 package muhlenberg.edu.bergdining;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,9 +13,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.convert.AnnotationStrategy;
 import org.simpleframework.xml.core.Persister;
 
+import java.io.Serializable;
+
+import muhlenberg.edu.bergdining.retro.WeeklyMenu;
 import muhlenberg.edu.bergdining.simplexml.MenuWeek;
 import retrofit.Call;
 import retrofit.Callback;
@@ -27,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements Callback<MenuWeek
     PagerAdapter pagerAdapter;
     MenuWeek menu;
 
+    static final String saveLocation = "weekly_menus";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +41,17 @@ public class MainActivity extends AppCompatActivity implements Callback<MenuWeek
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //get private access to memory location
+        SharedPreferences prefs = getSharedPreferences(saveLocation, 0);
+        Serializer ser = new Persister();
+        try {
+            WeeklyMenu menu = ser.read(WeeklyMenu.class, openFileInput("menu.xml"));
+        } catch (Exception e) {e.printStackTrace();}
+
+        if(menu != null) {
+
+        }
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://berg-dining.herokuapp.com/")

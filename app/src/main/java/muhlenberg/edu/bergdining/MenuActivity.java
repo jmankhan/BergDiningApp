@@ -17,8 +17,6 @@ import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.convert.AnnotationStrategy;
 import org.simpleframework.xml.core.Persister;
 
-import java.io.Serializable;
-
 import muhlenberg.edu.bergdining.retro.WeeklyMenu;
 import muhlenberg.edu.bergdining.simplexml.MenuWeek;
 import retrofit.Call;
@@ -27,7 +25,7 @@ import retrofit.Response;
 import retrofit.Retrofit;
 import retrofit.SimpleXmlConverterFactory;
 
-public class MainActivity extends AppCompatActivity implements Callback<MenuWeek> {
+public class MenuActivity extends AppCompatActivity implements Callback<MenuWeek> {
     ViewPager viewPager;
     PagerAdapter pagerAdapter;
     MenuWeek menu;
@@ -110,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements Callback<MenuWeek
 
         @Override
         public Fragment getItem(int position) {
-            MainActivityFragment f = MainActivityFragment.newInstance(position, menu);
+            MenuActivityFragment f = MenuActivityFragment.newInstance(position, menu);
             return f;
         }
 

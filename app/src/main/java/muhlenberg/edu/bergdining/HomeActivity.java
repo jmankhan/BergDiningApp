@@ -14,9 +14,6 @@ import android.widget.ViewSwitcher;
 
 import com.squareup.picasso.Picasso;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-
 public class HomeActivity extends AppCompatActivity implements ImageView.OnClickListener {
 
     ImageSwitcher imageSwitcher;
@@ -33,7 +30,7 @@ public class HomeActivity extends AppCompatActivity implements ImageView.OnClick
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView title = (TextView) findViewById(R.id.toolbar_title);
-        title.setText("Home");
+        title.setText(getString(R.string.title_activity_home));
         setSupportActionBar(toolbar);
 
         //good ol' java
@@ -77,7 +74,7 @@ public class HomeActivity extends AppCompatActivity implements ImageView.OnClick
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
     }
 }

@@ -14,6 +14,8 @@ import android.widget.ViewSwitcher;
 
 import com.squareup.picasso.Picasso;
 
+import muhlenberg.edu.bergdining.picasso.ImageSwitcherPicasso;
+
 public class HomeActivity extends AppCompatActivity implements ImageView.OnClickListener {
 
     ImageSwitcher imageSwitcher;

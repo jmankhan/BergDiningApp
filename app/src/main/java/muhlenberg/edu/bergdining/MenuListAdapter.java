@@ -1,5 +1,6 @@
 package muhlenberg.edu.bergdining;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -8,10 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import muhlenberg.edu.bergdining.simplexml.MenuItem;
 import muhlenberg.edu.bergdining.simplexml.MenuMeal;
 
 /**
@@ -27,15 +30,32 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.Custom
         this.menu = menu;
     }
 
-    public class CustomViewHolder extends RecyclerView.ViewHolder {
+    public class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textView;
         ImageView imageView;
+        int index = -1;
 
         public CustomViewHolder(View itemView) {
             super(itemView);
             textView = (TextView) itemView.findViewById(R.id.menu_item_text);
             imageView = (ImageView) itemView.findViewById(R.id.menu_item_image);
+            LinearLayout layout = (LinearLayout) itemView.findViewById(R.id.menu_item_layout);
+            layout.setOnClickListener(this);
          }
+
+        @Override
+        public void onClick(View v) {
+            MenuItem item = menu.items.get(index);
+            String message = "Calories:\t" + item.facts.calories + "\n"
+                    + "Carbs:\t" + item.facts.carbo + "\n"
+                    + "Fat:\t" + item.facts.fat;
+            AlertDialog dialog = new AlertDialog.Builder(context)
+                    .setTitle("Details - " + item.name)
+                    .setMessage(message)
+                    .create();
+            
+            dialog.show();
+        }
     }
 
     @Override
@@ -47,6 +67,9 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.Custom
 
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
+
+        holder.index = position;
+
         String name = menu.items.get(position).name;
         holder.textView.setText(name);
 
@@ -55,6 +78,8 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.Custom
                 .resize(250, 250)
                 .placeholder(R.drawable.ic_menu)
                 .into(holder.imageView);
+
+
     }
 
     @Override

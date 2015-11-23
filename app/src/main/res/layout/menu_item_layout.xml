@@ -13,7 +13,8 @@
         android:layout_weight="0.8"
         android:layout_gravity="center"
         android:scaleType="centerInside"
-        android:adjustViewBounds="true"/>
+        android:adjustViewBounds="true"
+        android:padding="20dp"/>
 
     <TextView
         android:id="@+id/menu_item_text"
@@ -21,8 +22,9 @@
         android:layout_height="0dp"
         android:layout_weight="0.2"
         android:ellipsize="end"
-        android:gravity="center_horizontal"
+        android:gravity="center"
         android:minLines="2"
+        android:maxLines="2"
         android:textColor="#fff"
         android:textSize="14sp" />
 </LinearLayout>

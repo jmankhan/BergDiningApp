@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -73,7 +74,6 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.Custom
 
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
-
         holder.index = position;
 
         String name = menu.items.get(position).name;
@@ -86,10 +86,7 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.Custom
                 .into(holder.imageView);
 
         if(menu.items.get(position).facts.station.contains("Wildfire"))
-            holder.imageView.setBackgroundResource(R.drawable.corner);
-        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            holder.imageView.setBackground(null);
-        }
+            holder.imageView.getDrawable().setColorFilter(Color.rgb(237, 231, 159), PorterDuff.Mode.MULTIPLY);
 
     }
 

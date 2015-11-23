@@ -7,11 +7,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.simpleframework.xml.Serializer;
@@ -36,8 +38,6 @@ public class MenuActivity extends AppCompatActivity implements Callback<MenuWeek
     PagerAdapter pagerAdapter;
     MenuWeek menu;
     boolean save;
-
-    static final String saveLocation = "weekly_menus";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +106,7 @@ public class MenuActivity extends AppCompatActivity implements Callback<MenuWeek
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_menu, menu);
         return true;
     }
 
@@ -164,6 +164,44 @@ public class MenuActivity extends AppCompatActivity implements Callback<MenuWeek
 
         @Override
         public Fragment getItem(int position) {
+            int pos = viewPager.getCurrentItem();
+
+            String base = "";
+            int day = pos / 3;
+            switch(day) {
+                case 0: base += "Monday"; break;
+                case 1: base += "Tuesday"; break;
+                case 2: base += "Wednesday"; break;
+                case 3: base += "Thursday"; break;
+                case 4: base += "Friday"; break;
+                case 5: base += "Saturday"; break;
+                case 6: base += "Sunday"; break;
+                default: base += "Error"; break;
+            }
+
+            TextView textView = (TextView) findViewById(R.id.toolbar_title);
+            textView.setText(base);
+
+
+            ActionBar toolbar = getSupportActionBar();
+
+            if(toolbar != null) {
+                toolbar.setDisplayShowTitleEnabled(false);
+                switch (menu.days.get(pos / 3).meal.get(pos % 3).name) {
+                    case "brk":
+                        toolbar.setLogo(R.drawable.sunset);
+                        break;
+                    case "lun":
+                        toolbar.setLogo(R.drawable.sun_lunch);
+                        break;
+                    case "din":
+                        toolbar.setLogo(R.drawable.moon);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
             MenuActivityFragment f = MenuActivityFragment.newInstance(position, menu);
             return f;
         }

@@ -50,9 +50,14 @@ public class MenuActivityFragment extends Fragment  {
         if(menu != null) {
             MenuMeal meal = menu.days.get(mealIndex % 7).meal.get(mealIndex % 3);
             Field[] fields = R.raw.class.getFields();
+            int j=0;
             for (MenuItem i : meal.items) {
                 try {
-                    i.id = (fields[0].getInt(fields[0]));
+                    while(fields[j % fields.length].getName().contains("big")) {
+                       j++;
+                    }
+
+                    i.id = (fields[j % fields.length].getInt(fields[j++ % fields.length]));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }

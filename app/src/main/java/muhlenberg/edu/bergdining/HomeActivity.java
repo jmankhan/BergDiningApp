@@ -20,9 +20,7 @@ public class HomeActivity extends AppCompatActivity implements ImageView.OnClick
 
     ImageSwitcher imageSwitcher;
     ImageSwitcherPicasso imageSwitcherPicasso;
-    int[] slideshowImages = {R.raw.alfredo_sauce, R.raw.american_vege_soup, R.raw.apple_walnut_wild_rice_salad,
-            R.raw.asian_turkey_walnut_soup, R.raw.baby_carrots, R.raw.bacon_cheeseburger, R.raw.bacon_egg_cheese_bagel,
-            R.raw.bacon_egg_cheese_muffin};
+    int[] slideshowImages = {R.raw.apple_big, R.raw.cake_big};
 
 
     @Override
@@ -31,13 +29,13 @@ public class HomeActivity extends AppCompatActivity implements ImageView.OnClick
         setContentView(R.layout.activity_home);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        TextView title = (TextView) findViewById(R.id.toolbar_title);
-        title.setText(getString(R.string.title_activity_home));
         setSupportActionBar(toolbar);
 
-        //good ol' java
-        if(getSupportActionBar() != null)
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //uncomment for centered title
+//        TextView title = (TextView) findViewById(R.id.toolbar_title);
+//        title.setText(getString(R.string.title_activity_home));
+//        if(getSupportActionBar() != null)
+//            getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
 

@@ -2,6 +2,10 @@ package muhlenberg.edu.bergdining;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
@@ -33,13 +37,15 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.Custom
     public class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textView;
         ImageView imageView;
+        LinearLayout layout;
         int index = -1;
 
         public CustomViewHolder(View itemView) {
             super(itemView);
+
             textView = (TextView) itemView.findViewById(R.id.menu_item_text);
             imageView = (ImageView) itemView.findViewById(R.id.menu_item_image);
-            LinearLayout layout = (LinearLayout) itemView.findViewById(R.id.menu_item_layout);
+            layout = (LinearLayout) itemView.findViewById(R.id.menu_item_layout);
             layout.setOnClickListener(this);
          }
 
@@ -53,7 +59,7 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.Custom
                     .setTitle("Details - " + item.name)
                     .setMessage(message)
                     .create();
-            
+
             dialog.show();
         }
     }
@@ -75,10 +81,15 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.Custom
 
         Picasso.with(context)
                 .load(menu.items.get(position).id)
-                .resize(250, 250)
+                .resize(144, 144)
                 .placeholder(R.drawable.ic_menu)
                 .into(holder.imageView);
 
+        if(menu.items.get(position).facts.station.contains("Wildfire"))
+            holder.imageView.setBackgroundResource(R.drawable.corner);
+        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            holder.imageView.setBackground(null);
+        }
 
     }
 

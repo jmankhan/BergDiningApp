@@ -1,6 +1,5 @@
 package muhlenberg.edu.bergdining;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,11 +12,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.convert.AnnotationStrategy;
 import org.simpleframework.xml.core.Persister;
 
-import muhlenberg.edu.bergdining.retro.WeeklyMenu;
 import muhlenberg.edu.bergdining.simplexml.MenuWeek;
 import retrofit.Call;
 import retrofit.Callback;
@@ -35,22 +32,10 @@ public class MenuActivity extends AppCompatActivity implements Callback<MenuWeek
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_menu);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        //get private access to memory location
-        SharedPreferences prefs = getSharedPreferences(saveLocation, 0);
-        Serializer ser = new Persister();
-        try {
-            WeeklyMenu menu = ser.read(WeeklyMenu.class, openFileInput("menu.xml"));
-        } catch (Exception e) {e.printStackTrace();}
-
-        if(menu != null) {
-
-        }
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://berg-dining.herokuapp.com/")
                 .addConverterFactory(SimpleXmlConverterFactory.create(new Persister(new AnnotationStrategy())))
@@ -87,8 +72,9 @@ public class MenuActivity extends AppCompatActivity implements Callback<MenuWeek
     @Override
     public void onResponse(Response<MenuWeek> response, Retrofit retrofit) {
         menu = response.body();
-        for(int i=0; i<7; i++)
+        for(int i=0; i<14;i++)
             menu.days.remove(0);
+
 
         viewPager  = (ViewPager) findViewById(R.id.menu_week_pager);
         pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());

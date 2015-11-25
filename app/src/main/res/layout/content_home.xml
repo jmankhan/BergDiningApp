@@ -39,6 +39,7 @@
                 android:src="@drawable/ic_menu"
                 android:scaleType="centerInside"
                 android:background="@color/colorRed"
+                android:adjustViewBounds="true"
                 android:onClick="onClick"/>
 
             <ImageButton
@@ -47,6 +48,7 @@
                 android:layout_weight="1"
                 android:layout_marginBottom="1dp"
                 android:src="@drawable/ic_settings"
+                android:adjustViewBounds="true"
                 android:background="@color/colorRed"/>
         </TableRow>
         <TableRow
@@ -59,12 +61,14 @@
                 android:src="@drawable/ic_fav"
                 android:background="@color/colorRed"
                 android:layout_marginRight="1dp"
+                android:adjustViewBounds="true"
                 android:layout_marginEnd="1dp"/>
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:src="@drawable/ic_help_white_18dp"
+                android:adjustViewBounds="true"
                 android:background="@color/colorRed"/>
         </TableRow>
     </TableLayout>

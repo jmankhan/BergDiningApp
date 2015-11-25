@@ -2,11 +2,13 @@ package muhlenberg.edu.bergdining;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.lang.reflect.Field;
 
@@ -48,23 +50,32 @@ public class MenuActivityFragment extends Fragment  {
         menu = (MenuWeek) getArguments().getSerializable("menu");
 
         if(menu != null) {
-            MenuMeal meal = menu.days.get(mealIndex % 7).meal.get(mealIndex % 3);
+            MenuMeal meal = menu.days.get(mealIndex / 3).meal.get(mealIndex % 3);
             Field[] fields = R.raw.class.getFields();
+            int j=0;
             for (MenuItem i : meal.items) {
                 try {
-                    i.id = (fields[0].getInt(fields[0]));
+                    while(fields[j % fields.length].getName().contains("big")) {
+                       j++;
+                    }
+
+                    i.id = (fields[j % fields.length].getInt(fields[j++ % fields.length]));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
             }
 
-            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.menu_recycler);
+            if(meal.items == null || meal.items.isEmpty()) {
+                view = inflater.inflate(R.layout.fragment_menu_closed, container, false);
+            } else {
+                RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.menu_recycler);
 
-            GridLayoutManager manager = new GridLayoutManager(getActivity(), 3);
-            recyclerView.setLayoutManager(manager);
+                GridLayoutManager manager = new GridLayoutManager(getActivity(), 3);
+                recyclerView.setLayoutManager(manager);
 
-            MenuListAdapter adapter = new MenuListAdapter(getActivity(), meal);
-            recyclerView.setAdapter(adapter);
+                MenuListAdapter adapter = new MenuListAdapter(getActivity(), meal);
+                recyclerView.setAdapter(adapter);
+            }
         }
         return view;
     }

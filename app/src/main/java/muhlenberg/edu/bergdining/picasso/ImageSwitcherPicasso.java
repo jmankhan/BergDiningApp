@@ -1,4 +1,4 @@
-package muhlenberg.edu.bergdining;
+package muhlenberg.edu.bergdining.picasso;
 
 import android.content.Context;
 import android.graphics.Bitmap;

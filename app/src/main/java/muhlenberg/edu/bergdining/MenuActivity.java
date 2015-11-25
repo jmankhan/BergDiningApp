@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +22,6 @@ import org.simpleframework.xml.convert.AnnotationStrategy;
 import org.simpleframework.xml.core.Persister;
 
 import java.io.ByteArrayOutputStream;
-import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -33,7 +33,7 @@ import retrofit.Response;
 import retrofit.Retrofit;
 import retrofit.SimpleXmlConverterFactory;
 
-public class MenuActivity extends AppCompatActivity implements Callback<MenuWeek> {
+public class MenuActivity extends AppCompatActivity implements Callback<MenuWeek>, ViewPager.OnPageChangeListener{
     ViewPager viewPager;
     PagerAdapter pagerAdapter;
     MenuWeek menu;
@@ -77,11 +77,7 @@ public class MenuActivity extends AppCompatActivity implements Callback<MenuWeek
                         for(int i=0; i<7; i++)
                             menu.days.remove(0);
 
-                        viewPager  = (ViewPager) findViewById(R.id.menu_week_pager);
-                        pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-                        viewPager.setAdapter(pagerAdapter);
-                        Log.d("parser", "reading from memory..");
-                        Log.d("parser", "size: " + menu.days.size());
+                        instantiateViewPager();
 
                     } catch (Exception e) {e.printStackTrace();}
                 }
@@ -131,10 +127,7 @@ public class MenuActivity extends AppCompatActivity implements Callback<MenuWeek
         for(int i=0; i<14;i++)
             menu.days.remove(0);
 
-
-        viewPager  = (ViewPager) findViewById(R.id.menu_week_pager);
-        pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(pagerAdapter);
+        instantiateViewPager();
 
         SharedPreferences prefs = getSharedPreferences("bergmenu", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
@@ -157,6 +150,58 @@ public class MenuActivity extends AppCompatActivity implements Callback<MenuWeek
         t.printStackTrace();
     }
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        Log.d("parser", "page selected: " + position);
+        String base = "";
+        int day = position / 3;
+        switch(day) {
+            case 0: base += "Monday"; break;
+            case 1: base += "Tuesday"; break;
+            case 2: base += "Wednesday"; break;
+            case 3: base += "Thursday"; break;
+            case 4: base += "Friday"; break;
+            case 5: base += "Saturday"; break;
+            case 6: base += "Sunday"; break;
+            default: base += "Error"; break;
+        }
+
+        TextView textView = (TextView) findViewById(R.id.toolbar_title);
+        textView.setText(base);
+
+
+        ActionBar toolbar = getSupportActionBar();
+
+        if(toolbar != null) {
+            toolbar.setDisplayShowTitleEnabled(false);
+            ImageView logo = (ImageView) findViewById(R.id.toolbar_logo);
+
+            switch (menu.days.get(position / 3).meal.get(position % 3).name) {
+                case "brk":
+                    logo.setImageResource(R.drawable.sunrise);
+                    break;
+                case "lun":
+                    logo.setImageResource(R.drawable.sun_lunch);
+                    break;
+                case "din":
+                    logo.setImageResource(R.drawable.moon);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
@@ -164,51 +209,43 @@ public class MenuActivity extends AppCompatActivity implements Callback<MenuWeek
 
         @Override
         public Fragment getItem(int position) {
-            int pos = viewPager.getCurrentItem();
-
-            String base = "";
-            int day = pos / 3;
-            switch(day) {
-                case 0: base += "Monday"; break;
-                case 1: base += "Tuesday"; break;
-                case 2: base += "Wednesday"; break;
-                case 3: base += "Thursday"; break;
-                case 4: base += "Friday"; break;
-                case 5: base += "Saturday"; break;
-                case 6: base += "Sunday"; break;
-                default: base += "Error"; break;
-            }
-
-            TextView textView = (TextView) findViewById(R.id.toolbar_title);
-            textView.setText(base);
-
-
-            ActionBar toolbar = getSupportActionBar();
-
-            if(toolbar != null) {
-                toolbar.setDisplayShowTitleEnabled(false);
-                switch (menu.days.get(pos / 3).meal.get(pos % 3).name) {
-                    case "brk":
-                        toolbar.setLogo(R.drawable.sunset);
-                        break;
-                    case "lun":
-                        toolbar.setLogo(R.drawable.sun_lunch);
-                        break;
-                    case "din":
-                        toolbar.setLogo(R.drawable.moon);
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            MenuActivityFragment f = MenuActivityFragment.newInstance(position, menu);
-            return f;
+            return MenuActivityFragment.newInstance(position, menu);
         }
 
         @Override
         public int getCount() {
             return 21;
+        }
+    }
+
+    public void instantiateViewPager() {
+        viewPager  = (ViewPager) findViewById(R.id.menu_week_pager);
+        pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.setOffscreenPageLimit(0);
+        viewPager.addOnPageChangeListener(this);
+
+        Calendar cal = Calendar.getInstance();
+        int time = cal.get(Calendar.HOUR_OF_DAY);
+        int hour;
+        if(time < 10)
+            hour = 0;
+        else if(time < 16)
+            hour = 1;
+        else
+            hour = 2;
+
+        int day = cal.get(Calendar.DAY_OF_WEEK);
+        switch(day) {
+            case Calendar.MONDAY:       viewPager.setCurrentItem(0+hour); break;
+            case Calendar.TUESDAY:      viewPager.setCurrentItem(3+hour); break;
+            case Calendar.WEDNESDAY:    viewPager.setCurrentItem(6+hour); break;
+            case Calendar.THURSDAY:     viewPager.setCurrentItem(9+hour); break;
+            case Calendar.FRIDAY:       viewPager.setCurrentItem(12+hour);break;
+            case Calendar.SATURDAY:     viewPager.setCurrentItem(15+hour);break;
+            case Calendar.SUNDAY:       viewPager.setCurrentItem(18+hour);break;
+
+            default: viewPager.setCurrentItem(0);
         }
     }
 }

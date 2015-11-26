@@ -1,7 +1,9 @@
 package muhlenberg.edu.bergdining;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,8 +19,15 @@ import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CheckedTextView;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.simpleframework.xml.Serializer;
@@ -270,15 +279,16 @@ public class MenuActivity extends AppCompatActivity implements Callback<MenuWeek
     }
 
     public void setupTitle(Button title) {
-
         title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String[] days = getResources().getStringArray(R.array.days);
+                Calendar cal = Calendar.getInstance();
+                int day = cal.get(Calendar.DAY_OF_WEEK);
 
+                String[] days = getResources().getStringArray(R.array.days);
                 AlertDialog.Builder builder = new AlertDialog.Builder(MenuActivity.this, R.style.MyAlertDialogStyle);
                 builder.setTitle("Select A Day");
-                builder.setSingleChoiceItems(days, -1, new DialogInterface.OnClickListener() {
+                builder.setSingleChoiceItems(days, day, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
                         viewPager.setCurrentItem(item * 3);
                         dialog.dismiss();
@@ -289,4 +299,6 @@ public class MenuActivity extends AppCompatActivity implements Callback<MenuWeek
             }
         });
     }
+
+
 }

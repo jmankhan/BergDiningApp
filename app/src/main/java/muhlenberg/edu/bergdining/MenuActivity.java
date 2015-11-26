@@ -13,6 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -232,9 +233,9 @@ public class MenuActivity extends AppCompatActivity implements Callback<MenuWeek
         Calendar cal = Calendar.getInstance();
         int time = cal.get(Calendar.HOUR_OF_DAY);
         int hour;
-        if (time < 10)
+        if (time < 10) //before 10am - breakfast
             hour = 0;
-        else if (time < 16)
+        else if (time < 16) //before 5pm - lunch
             hour = 1;
         else
             hour = 2;
@@ -275,9 +276,8 @@ public class MenuActivity extends AppCompatActivity implements Callback<MenuWeek
             public void onClick(View v) {
                 String[] days = getResources().getStringArray(R.array.days);
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(MenuActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MenuActivity.this, R.style.MyAlertDialogStyle);
                 builder.setTitle("Select A Day");
-
                 builder.setSingleChoiceItems(days, -1, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
                         viewPager.setCurrentItem(item * 3);

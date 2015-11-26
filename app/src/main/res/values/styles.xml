@@ -18,5 +18,12 @@
         <item name="android:divider">#000</item>
         <item name="android:dividerHeight">1dp</item>
     </style>
-
+    <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!-- Used for the buttons -->
+        <item name="colorAccent">#fff</item>
+        <!-- Used for the title and text -->
+        <item name="android:textColorPrimary">#fff</item>
+        <!-- Used for the background -->
+        <item name="android:background">@color/colorTitle</item>
+    </style>
 </resources>

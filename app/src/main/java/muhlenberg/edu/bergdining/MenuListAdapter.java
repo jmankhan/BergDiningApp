@@ -2,6 +2,7 @@ package muhlenberg.edu.bergdining;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -12,10 +13,13 @@ import android.text.Html;
 import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -54,18 +58,25 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.Custom
         @Override
         public void onClick(View v) {
             MenuItem item = menu.items.get(index);
+            View newView = itemView.findViewById(R.id.item_detail_main);
             String message = "Calories:\t" + item.facts.calories + "\n"
                     + "Carbs:\t" + item.facts.carbo + "\n"
                     + "Fat:\t" + item.facts.fat;
 
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            AlertDialog dialog = new AlertDialog.Builder(context)
-                    .setTitle("Details - " + item.name)
-               //     .setMessage(message)
+            final AlertDialog dialog = new AlertDialog.Builder(context)
+                    .setCustomTitle(itemView.findViewById(R.id.menu_item_detail_title))
                     .setView(inflater.inflate(R.layout.item_details, null, false))
                     .create();
 
+
             dialog.show();
+            dialog.findViewById(R.id.item_detail_main).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
         }
     }
 

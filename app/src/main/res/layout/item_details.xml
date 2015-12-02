@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorLightBlue"
-    android:paddingBottom="20dp">
-
+    android:id="@+id/item_detail_main"
+    android:background="@color/colorDarkBlue"
+    android:padding="5dp">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Random Title"
+        android:minLines="2"
+        android:maxLines="2"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="5dp"
+        android:textSize="25dp"
+        android:textColor="@color/colorLightBlue"
+        android:background="@color/colorDarkBlue"
+        android:id="@+id/menu_item_detail_title"/>
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="170dp"
-        android:paddingTop="20dp"
+        android:paddingTop="25dp"
+        android:background="@color/colorLightBlue"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/salad"
         android:id="@+id/menu_item_detail_image"/>
@@ -16,11 +31,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20dp"
+        android:background="@color/colorLightBlue"
         android:text="Insert brief description here. It may contain an absurdly lengthy description, so be sure to leave enough space. Just sayin'..."
         android:id="@+id/menu_item_description" />
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorLightBlue"
         android:stretchColumns="*">
         <TableRow
             android:layout_width="match_parent"
@@ -47,6 +64,7 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingBottom="15dp"
             android:layout_gravity="center"
             android:gravity="center">
             <ImageView

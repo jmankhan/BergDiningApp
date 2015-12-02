@@ -96,7 +96,7 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.Custom
             holder.imageView.getDrawable().setColorFilter(Color.rgb(0, 231, 0), PorterDuff.Mode.MULTIPLY);
 
         else if(menu.items.get(position).facts.station.contains("Mangia"))
-            holder.imageView.getDrawable().setColorFilter(Color.rgb(237, 231, 231), PorterDuff.Mode.MULTIPLY);
+            holder.imageView.getDrawable().setColorFilter(Color.rgb(237, 131, 0), PorterDuff.Mode.MULTIPLY);
 
         else if(menu.items.get(position).facts.station.contains("Magellan"))
             holder.imageView.getDrawable().setColorFilter(Color.rgb(237, 0, 237), PorterDuff.Mode.MULTIPLY);

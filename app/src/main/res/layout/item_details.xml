@@ -2,26 +2,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorLightBlue">
+    android:background="@color/colorLightBlue"
+    android:paddingBottom="20dp">
+
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="170dp"
+        android:paddingTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/salad"
         android:id="@+id/menu_item_detail_image"/>
     <TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/menu_item_description" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:text="Insert brief description here. It may contain an absurdly lengthy description, so be sure to leave enough space. Just sayin'..."
+        android:id="@+id/menu_item_description" />
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="0dp"
         android:stretchColumns="*">
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:gravity="center"
-            android:padding="0dp">
+            android:gravity="center">
             <ImageView
                 android:layout_width="75dp"
                 android:layout_height="75dp"
@@ -43,8 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:gravity="center"
-            android:padding="0dp">
+            android:gravity="center">
             <ImageView
                 android:layout_width="75dp"
                 android:layout_height="75dp"

@@ -6,10 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.os.Build;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+
+import java.io.InputStream;
 
 import muhlenberg.edu.bergdining.simplexml.MenuItem;
 import muhlenberg.edu.bergdining.simplexml.MenuMeal;
@@ -53,21 +52,67 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.Custom
         @Override
         public void onClick(View v) {
             MenuItem item = menu.items.get(index);
-            String message = "Calories:\t" + item.facts.calories + "\n"
-                    + "Carbs:\t" + item.facts.carbo + "\n"
-                    + "Fat:\t" + item.facts.fat;
-            AlertDialog dialog = new AlertDialog.Builder(context)
-                    .setTitle("Details - " + item.name)
-                    .setMessage(message)
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View customView = inflater.inflate(R.layout.item_details, null, false);
+
+            final AlertDialog dialog = new AlertDialog.Builder(context)
+                    .setCustomTitle(itemView.findViewById(R.id.menu_item_detail_title))
+                    .setView(customView)
                     .create();
 
+            TextView name = (TextView) customView.findViewById(R.id.menu_item_detail_title);
+            name.setText(item.facts.item_name);
+
+            ImageView img = (ImageView) customView.findViewById(R.id.menu_item_detail_image);
+            String image = item.facts.imageID;
+            if (context.getResources().getIdentifier(image, "raw", context.getPackageName()) != 0) {
+                InputStream is = context.getResources().openRawResource(context.getResources().getIdentifier(image,
+                        "raw", context.getPackageName()));
+                Bitmap bitmap = BitmapFactory.decodeStream(is);
+                img.setImageBitmap(bitmap);
+            }
+
+            TextView desc = (TextView) customView.findViewById(R.id.menu_item_description);
+            desc.setText(item.facts.item_desc);
+
+            TextView cal = (TextView) customView.findViewById(R.id.menu_item_cal_text);
+            cal.setText(item.facts.calories);
+
+            TextView fat = (TextView) customView.findViewById(R.id.menu_item_fat_text);
+            fat.setText(item.facts.fat);
+
+            TextView satfat = (TextView) customView.findViewById(R.id.menu_item_satfat_text);
+            satfat.setText(item.facts.satfat);
+
+            TextView transfat = (TextView) customView.findViewById(R.id.menu_item_transfat_text);
+            transfat.setText(item.facts.transfat);
+
+            TextView chol = (TextView) customView.findViewById(R.id.menu_item_chol_text);
+            chol.setText(item.facts.chol);
+
+            TextView carbs = (TextView) customView.findViewById(R.id.menu_item_carbs_text);
+            carbs.setText(item.facts.carbo);
+
+            TextView sugar = (TextView) customView.findViewById(R.id.menu_item_sugar_text);
+            sugar.setText(item.facts.sugars);
+
+            TextView protein = (TextView) customView.findViewById(R.id.menu_item_protein_text);
+            protein.setText(item.facts.protein);
+
             dialog.show();
+            dialog.findViewById(R.id.item_detail_main).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
         }
+
     }
 
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.menu_item_layout, parent, false);
+        View v = LayoutInflater.from(context).inflate(R.layout.menu_item, parent, false);
         CustomViewHolder viewHolder = new CustomViewHolder(v);
         return viewHolder;
     }
@@ -88,6 +133,20 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.Custom
         if(menu.items.get(position).facts.station.contains("Wildfire"))
             holder.imageView.getDrawable().setColorFilter(Color.rgb(237, 231, 159), PorterDuff.Mode.MULTIPLY);
 
+        else if(menu.items.get(position).facts.station.contains("Crouton"))
+            holder.imageView.getDrawable().setColorFilter(Color.rgb(0, 231, 0), PorterDuff.Mode.MULTIPLY);
+
+        else if(menu.items.get(position).facts.station.contains("Mangia"))
+            holder.imageView.getDrawable().setColorFilter(Color.rgb(237, 131, 0), PorterDuff.Mode.MULTIPLY);
+
+        else if(menu.items.get(position).facts.station.contains("Magellan"))
+            holder.imageView.getDrawable().setColorFilter(Color.rgb(237, 0, 237), PorterDuff.Mode.MULTIPLY);
+
+        else if(menu.items.get(position).facts.station.contains("Chef"))
+            holder.imageView.getDrawable().setColorFilter(Color.rgb(237, 237, 237), PorterDuff.Mode.MULTIPLY);
+
+        else
+            holder.imageView.getDrawable().setColorFilter(Color.rgb(0, 0, 0), PorterDuff.Mode.MULTIPLY);
     }
 
     @Override

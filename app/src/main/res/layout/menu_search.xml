@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorRed">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/menu_search_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="?attr/actionBarSize">
+    </android.support.v7.widget.RecyclerView>
+
+    <include layout="@layout/toolbar_menu_search"/>
+</android.support.design.widget.CoordinatorLayout>

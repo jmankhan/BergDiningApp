@@ -96,5 +96,8 @@ public class MenuFact implements Serializable {
 	@Attribute(name = "iron_pct_dv")
 	public String iron_pct_dv;
 
+	@Attribute(name = "imageID", required = false)
+	public String imageID;
+
 	public String id;
 }

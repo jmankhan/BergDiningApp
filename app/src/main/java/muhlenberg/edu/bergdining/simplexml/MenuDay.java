@@ -22,7 +22,10 @@ public class MenuDay implements Serializable {
 	}
 	@Element
 	public String name;
-	
+
+	@Element(required = false)
+	public int count;
+
 	@ElementList
 	public ArrayList<MenuMeal> meal;
 }

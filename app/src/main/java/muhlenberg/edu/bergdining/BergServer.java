@@ -10,6 +10,6 @@ import retrofit.http.GET;
  */
 public interface BergServer {
 
-    @GET("/berg")
+    @GET("/berg/update")
     Call<MenuWeek> getMenu();
 }

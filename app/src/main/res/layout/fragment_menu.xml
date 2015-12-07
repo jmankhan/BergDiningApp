@@ -15,13 +15,14 @@
         android:id="@+id/fabBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="32dp"
         android:layout_gravity="bottom|right"
         android:src="@drawable/ic_search"
         android:adjustViewBounds="true"
         fab:backgroundTint="@color/colorTitle"
         fab:rippleColor="#fff"
         app:layout_anchor="@id/menu_recycler"
-        app:layout_anchorGravity="bottom|right|end"/>
+        app:layout_anchorGravity="bottom|right|end"
+        android:onClick="onSearch"/>
 
 </android.support.design.widget.CoordinatorLayout>

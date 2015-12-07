@@ -5,6 +5,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,6 +73,7 @@ public class MenuSearchAdapter extends RecyclerView.Adapter<MenuSearchAdapter.Cu
         applyAndAnimateRemovals(menu);
         applyAndAnimateAdditions(menu);
         applyAndAnimateMovedItems(menu);
+
     }
 
     private void applyAndAnimateRemovals(ArrayList<MenuItem> newMenu) {

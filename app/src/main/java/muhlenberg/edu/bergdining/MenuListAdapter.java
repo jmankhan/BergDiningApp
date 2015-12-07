@@ -65,7 +65,7 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.Custom
 
             ImageView img = (ImageView) customView.findViewById(R.id.menu_item_detail_image);
             String image = item.facts.imageID;
-            if (context.getResources().getIdentifier(image, "raw", context.getPackageName()) != 0) {
+            if (image != null && context.getResources().getIdentifier(image, "raw", context.getPackageName()) != 0) {
                 InputStream is = context.getResources().openRawResource(context.getResources().getIdentifier(image,
                         "raw", context.getPackageName()));
                 Bitmap bitmap = BitmapFactory.decodeStream(is);
@@ -144,7 +144,6 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.Custom
 
         else if(menu.items.get(position).facts.station.contains("Chef"))
             holder.imageView.getDrawable().setColorFilter(Color.rgb(237, 237, 237), PorterDuff.Mode.MULTIPLY);
-
         else
             holder.imageView.getDrawable().setColorFilter(Color.rgb(0, 0, 0), PorterDuff.Mode.MULTIPLY);
     }

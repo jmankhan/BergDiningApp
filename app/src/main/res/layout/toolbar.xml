@@ -15,7 +15,8 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimaryDark"
             android:gravity="center"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            >
 
             <ImageView
                 android:id="@+id/toolbar_logo"

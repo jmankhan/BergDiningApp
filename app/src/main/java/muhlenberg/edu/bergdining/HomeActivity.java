@@ -9,18 +9,19 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.squareup.picasso.Picasso;
 
 import muhlenberg.edu.bergdining.picasso.ImageSwitcherPicasso;
+import muhlenberg.edu.bergdining.simplexml.MenuWeek;
 
 public class HomeActivity extends AppCompatActivity implements ImageView.OnClickListener {
 
+    MenuWeek menu;
     ImageSwitcher imageSwitcher;
     ImageSwitcherPicasso imageSwitcherPicasso;
-    int[] slideshowImages = {R.raw.apple_big, R.raw.cake_big};
+    int[] slideshowImages = {R.raw.greek_lemon_chicken_big, R.raw.pancakes_big, R.raw.buffalo_meltdown_big};
 
 
     @Override
@@ -30,14 +31,6 @@ public class HomeActivity extends AppCompatActivity implements ImageView.OnClick
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        //uncomment for centered title
-//        TextView title = (TextView) findViewById(R.id.toolbar_title);
-//        title.setText(getString(R.string.title_activity_home));
-//        if(getSupportActionBar() != null)
-//            getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-
 
         imageSwitcher = (ImageSwitcher) findViewById(R.id.home_slideshow);
         imageSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
@@ -70,11 +63,13 @@ public class HomeActivity extends AppCompatActivity implements ImageView.OnClick
             }
         }, 5000);
 
+        menu = (MenuWeek) getIntent().getSerializableExtra("menu");
     }
 
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(this, MenuActivity.class);
+        intent.putExtra("menu", menu);
         startActivity(intent);
     }
 }

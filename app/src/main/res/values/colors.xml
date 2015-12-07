@@ -7,4 +7,7 @@
     <color name="colorRed">#cc092f</color>
     <color name="colorDarkBlue">#3f48cc</color>
     <color name="colorLightBlue">#ace1ee</color>
+    <color name="colorBlack">#000000</color>
+
+    <color name="black_overlay">#66000000</color>
 </resources>

@@ -17,4 +17,6 @@
         <item>Saturday</item>
         <item>Sunday</item>
     </string-array>
+
+    <string name="title_activity_splash">SplashActivity</string>
 </resources>

@@ -40,7 +40,7 @@ import retrofit.Response;
 import retrofit.Retrofit;
 import retrofit.SimpleXmlConverterFactory;
 
-public class MenuActivity extends AppCompatActivity implements Callback<MenuWeek>, OnPageChangeListener {
+public class MenuActivity extends AppCompatActivity implements OnPageChangeListener {
     ViewPager viewPager;
     PagerAdapter pagerAdapter;
     MenuWeek menu;
@@ -62,33 +62,14 @@ public class MenuActivity extends AppCompatActivity implements Callback<MenuWeek
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        if (shouldUpdate()) {
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("https://berg-dining.herokuapp.com/")
-                    .addConverterFactory(SimpleXmlConverterFactory.create(new Persister(new AnnotationStrategy())))
-                    .build();
-
-            BergServer bs = retrofit.create(BergServer.class);
-            Call<MenuWeek> call = bs.getMenu();
-            call.enqueue(this);
-        }
+        menu = (MenuWeek) getIntent().getSerializableExtra("menu");
+        instantiateViewPager();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_menu, menu);
-
-        final android.view.MenuItem item = menu.findItem(R.id.action_search);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-        searchView.setOnSearchClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MenuActivity.this, MenuSearchActivity.class);
-                intent.putExtra("menu", MenuActivity.this.menu);
-                startActivity(intent);
-            }
-        });
 
         return true;
     }
@@ -107,38 +88,10 @@ public class MenuActivity extends AppCompatActivity implements Callback<MenuWeek
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onResponse(Response<MenuWeek> response, Retrofit retrofit) {
-
-        //due to some strange serialization we get some extra, blank days, so remove them
-        menu = response.body();
-        while(menu.days.size() > 7)
-            menu.days.remove(0);
-
-        instantiateViewPager();
-
-        //store the downloaded menu into sharedpreferences
-        SharedPreferences prefs = getSharedPreferences("bergmenu", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-        Serializer ser = new Persister(new AnnotationStrategy());
-        try {
-            ser.write(menu, baos);
-            editor.putString("latestmenu", new String(baos.toByteArray(), "UTF-8"));
-            editor.putLong("latest", Calendar.getInstance().getTime().getTime());
-            editor.apply();
-
-            Log.d("parser", "adding new menu to storage");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onFailure(Throwable t) {
-        Toast.makeText(this, "Failed to update menu", Toast.LENGTH_SHORT).show();
-        t.printStackTrace();
+    public void onSearch(View view) {
+        Intent intent = new Intent(MenuActivity.this, MenuSearchActivity.class);
+        intent.putExtra("menu", MenuActivity.this.menu);
+        startActivity(intent);
     }
 
     @Override
@@ -209,7 +162,7 @@ public class MenuActivity extends AppCompatActivity implements Callback<MenuWeek
         int hour;
         if (time < 10) //before 10am - breakfast
             hour = 0;
-        else if (time < 16) //before 5pm - lunch
+        else if (time < 16) //before 4pm - lunch
             hour = 1;
         else
             hour = 2;
@@ -253,7 +206,7 @@ public class MenuActivity extends AppCompatActivity implements Callback<MenuWeek
                 String[] days = getResources().getStringArray(R.array.days);
                 AlertDialog.Builder builder = new AlertDialog.Builder(MenuActivity.this, R.style.MyAlertDialogStyle);
                 builder.setTitle("Select A Day");
-                builder.setSingleChoiceItems(days, day, new DialogInterface.OnClickListener() {
+                builder.setSingleChoiceItems(days, (day - 2) % 7, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
                         viewPager.setCurrentItem(item * 3);
                         dialog.dismiss();
@@ -263,71 +216,6 @@ public class MenuActivity extends AppCompatActivity implements Callback<MenuWeek
                 titleDialog.show();
             }
         });
-    }
-
-    public boolean shouldUpdate() {
-        boolean update;
-
-        //read the menu from memory
-        SharedPreferences prefs = getSharedPreferences("bergmenu", MODE_PRIVATE);
-
-        //get the date it was added to memory
-        long latest = prefs.getLong("latest", -1);
-
-        //nothing in storage, download a new update and store it on phone
-        if (latest != -1) {
-            Calendar last = Calendar.getInstance();
-            last.setTime(new Date(latest));
-
-            //use this calendar to check if 7 days has passed since the last update
-            GregorianCalendar week = new GregorianCalendar();
-            week.setTime(new Date(latest));
-            week.add(Calendar.DATE, 7);
-
-            //use this calendar to store most recent monday's date
-            Calendar monday = new GregorianCalendar();
-            monday.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-
-            Calendar now = Calendar.getInstance();
-
-            //if the last update occurred before the most recent Monday,
-            //or one week has passed since the last update
-            //we need to download a new update
-            if (last.before(monday) && monday.get(Calendar.MONTH) == last.get(Calendar.MONTH)
-                    || now.after(week)) {
-                Log.d("parser", "already have menu in memory, but need to update it");
-                Log.d("parser", "last monday date: " + monday.get(Calendar.DATE));
-                update = true;
-            } else {
-                //otherwise, we can just use the menu we have on file
-                update = false;
-
-                String xml = prefs.getString("latestmenu", null);
-                if (xml != null) {
-                    Serializer ser = new Persister(new AnnotationStrategy());
-                    try {
-
-
-                        //because of some strange serializing, the first few entries are blank
-                        //so remove them
-                        menu = ser.read(MenuWeek.class, xml);
-                        while(menu.days.size() > 7)
-                            menu.days.remove(0);
-
-                        instantiateViewPager();
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        } else {
-            //there is nothing in the storage, so we need to update
-            Log.d("parser", "nothing in storage... making network call");
-            update = true;
-        }
-
-        return update;
     }
 
 }

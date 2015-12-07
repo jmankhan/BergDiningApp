@@ -57,7 +57,7 @@
                     android:layout_height="75dp"
                     android:layout_centerInParent="true"
                     android:gravity="center"
-                    android:src="@drawable/circle_background"
+                    android:src="@drawable/ic_cal"
                     android:padding="5dp"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -65,6 +65,7 @@
                     android:layout_centerInParent="true"
                     android:textColor="@color/colorLightBlue"
                     android:textSize="16sp"
+                    android:paddingBottom="15dp"
                     android:id="@+id/menu_item_cal_text"/>
             </RelativeLayout>
             <RelativeLayout
@@ -75,7 +76,7 @@
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/circle_background"
+                    android:src="@drawable/ic_fat"
                     android:padding="5dp"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -84,6 +85,7 @@
                     android:gravity="center"
                     android:textColor="@color/colorLightBlue"
                     android:textSize="16sp"
+                    android:paddingBottom="15dp"
                     android:id="@+id/menu_item_fat_text"/>
             </RelativeLayout>
             <RelativeLayout
@@ -94,7 +96,7 @@
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/circle_background"
+                    android:src="@drawable/ic_satfat"
                     android:padding="5dp"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -103,6 +105,7 @@
                     android:gravity="center"
                     android:textColor="@color/colorLightBlue"
                     android:textSize="16sp"
+                    android:paddingBottom="15dp"
                     android:id="@+id/menu_item_satfat_text"/>
             </RelativeLayout>
             <RelativeLayout
@@ -113,7 +116,7 @@
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/circle_background"
+                    android:src="@drawable/ic_transfat"
                     android:padding="5dp"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -122,6 +125,7 @@
                     android:gravity="center"
                     android:textColor="@color/colorLightBlue"
                     android:textSize="16sp"
+                    android:paddingBottom="15dp"
                     android:id="@+id/menu_item_transfat_text"/>
             </RelativeLayout>
         </TableRow>
@@ -139,7 +143,7 @@
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/circle_background"
+                    android:src="@drawable/ic_chol"
                     android:padding="5dp"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -148,6 +152,7 @@
                     android:gravity="center"
                     android:textColor="@color/colorLightBlue"
                     android:textSize="16sp"
+                    android:paddingBottom="15dp"
                     android:id="@+id/menu_item_chol_text"/>
             </RelativeLayout>
             <RelativeLayout
@@ -158,7 +163,7 @@
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/circle_background"
+                    android:src="@drawable/ic_carbs"
                     android:padding="5dp"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -167,6 +172,7 @@
                     android:gravity="center"
                     android:textColor="@color/colorLightBlue"
                     android:textSize="16sp"
+                    android:paddingBottom="15dp"
                     android:id="@+id/menu_item_carbs_text"/>
             </RelativeLayout>
             <RelativeLayout
@@ -178,7 +184,7 @@
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/circle_background"
+                    android:src="@drawable/ic_sugar"
                     android:padding="5dp"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -187,6 +193,7 @@
                     android:gravity="center"
                     android:textColor="@color/colorLightBlue"
                     android:textSize="16sp"
+                    android:paddingBottom="15dp"
                     android:id="@+id/menu_item_sugar_text"/>
             </RelativeLayout>
             <RelativeLayout
@@ -197,7 +204,7 @@
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/circle_background"
+                    android:src="@drawable/ic_protein"
                     android:padding="5dp"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -206,6 +213,7 @@
                     android:gravity="center"
                     android:textColor="@color/colorLightBlue"
                     android:textSize="16sp"
+                    android:paddingBottom="15dp"
                     android:id="@+id/menu_item_protein_text"/>
             </RelativeLayout>
         </TableRow>

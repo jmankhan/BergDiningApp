@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.method.TextKeyListener;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,8 +41,16 @@ public class MenuSearchAdapter extends RecyclerView.Adapter<MenuSearchAdapter.Cu
     @Override
     public void onBindViewHolder(CustomSearchViewHolder holder, int position) {
         MenuItem item = menu.get(position);
-
-        String details = "Day: " + item.facts.day + "   Station: " + item.facts.station;
+        String day = item.facts.day.replaceFirst(item.facts.day.substring(0, 1),
+                item.facts.day.substring(0, 1).toUpperCase());
+        String meal = "";
+        if (item.facts.meal.equalsIgnoreCase("brk"))
+            meal = "Breakfast";
+        else if (item.facts.meal.equalsIgnoreCase("lun"))
+            meal = "Lunch";
+        else if (item.facts.meal.equalsIgnoreCase("din"))
+            meal = "Dinner";
+        String details = "" + day + " " + meal + " at " + item.facts.station;
 
         holder.titleView.setText(item.name);
         holder.detailView.setText(details);
